@@ -13,6 +13,18 @@ Ok. This is free - for you to use in any form you like. I know the code is still
 
 I did not do anything with Spine animations (Just don't have that). I did add support for Spriter. 
 
+I did not have time to create a nice demo project for this. Maybe I can add that later if that is something you like. 
+If you have a Overlap2D project in Libgdx and would like to add this just add a boundingboxComponent to all objects, and initialize both boundingbox and cullingSystems:
+
+sl.engine.addSystem(new BoundingBoxSystem());
+sl.engine.addSystem(new CullingSystem());
+		
+@SuppressWarnings("unchecked")
+ImmutableArray<Entity> dimensionEntities = sl.engine.getEntitiesFor(Family.all(DimensionsComponent.class).get());		
+for (Entity entity : dimensionEntities) {
+			entity.add(new BoundingBoxComponent());			
+}
+
 Happy coding,
 
 Merijn
