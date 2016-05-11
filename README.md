@@ -25,6 +25,43 @@ for (Entity entity : dimensionEntities) {
 			entity.add(new BoundingBoxComponent());			
 }
 
+In your main render routine you could debugRender them to see if the boundingboxes fit:
+
+
+void debugRender() {
+		ShapeRenderer shapeRenderer = Commons.getGame().getDebugRenderer();
+		shapeRenderer.setProjectionMatrix( Commons.getGame().getViewport().getCamera().combined);		
+		shapeRenderer.begin(ShapeType.Line);		
+		shapeRenderer.setColor(Color.RED);		
+		
+		@SuppressWarnings("unchecked")
+		Family bounding = Family.all(BoundingBoxComponent.class).get();
+		ImmutableArray<Entity> entities = sl.engine.getEntitiesFor(bounding);						
+		
+		for (Entity entity : entities) {
+			BoundingBoxComponent boundingbox = Mappers.boundingBox.get(entity);
+				Rectangle rect = boundingbox.getBoundingRect();											
+				shapeRenderer.rect(rect.x, rect.y, rect.width, rect.height);
+				for (int i = 0; i<4; i++) 
+				{				
+					shapeRenderer.rect(boundingbox.points[i].x-2, boundingbox.points[i].y-2, 4, 4);	
+				}				
+			}				
+		shapeRenderer.setColor(Color.BLUE);
+		OrthographicCamera camera = (OrthographicCamera) Commons.getGame().getViewport().getCamera();
+		shapeRenderer.rect(camera.position.x - ((camera.viewportWidth * camera.zoom ) / 4 ),
+				camera.position.y - ((camera.viewportHeight * camera.zoom ) / 4 ),
+				(camera.viewportWidth * camera.zoom) /2 ,
+				(camera.viewportHeight * camera.zoom) / 2 ) ;
+				
+											
+		shapeRenderer.end();
+		
+		
+	}
+	
+	
+
 Happy coding,
 
 Merijn
