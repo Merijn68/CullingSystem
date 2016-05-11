@@ -16,49 +16,49 @@ I did not do anything with Spine animations (Just don't have that). I did add su
 I did not have time to create a nice demo project for this. Maybe I can add that later if that is something you like. 
 If you have a Overlap2D project in Libgdx and would like to add this just add a boundingboxComponent to all objects, and initialize both boundingbox and cullingSystems:
 
-sl.engine.addSystem(new BoundingBoxSystem());
-sl.engine.addSystem(new CullingSystem());
-		
-@SuppressWarnings("unchecked")
-ImmutableArray<Entity> dimensionEntities = sl.engine.getEntitiesFor(Family.all(DimensionsComponent.class).get());		
-for (Entity entity : dimensionEntities) {
-			entity.add(new BoundingBoxComponent());			
-}
+	sl.engine.addSystem(new BoundingBoxSystem());
+	sl.engine.addSystem(new CullingSystem());
+			
+	@SuppressWarnings("unchecked")
+	ImmutableArray<Entity> dimensionEntities = sl.engine.getEntitiesFor(Family.all(DimensionsComponent.class).get());		
+	for (Entity entity : dimensionEntities) {
+				entity.add(new BoundingBoxComponent());			
+	}
 
 In your main render routine you could debugRender them to see if the boundingboxes fit:
 
 
-void debugRender() {
-		ShapeRenderer shapeRenderer = Commons.getGame().getDebugRenderer();
-		shapeRenderer.setProjectionMatrix( Commons.getGame().getViewport().getCamera().combined);		
-		shapeRenderer.begin(ShapeType.Line);		
-		shapeRenderer.setColor(Color.RED);		
-		
-		@SuppressWarnings("unchecked")
-		Family bounding = Family.all(BoundingBoxComponent.class).get();
-		ImmutableArray<Entity> entities = sl.engine.getEntitiesFor(bounding);						
-		
-		for (Entity entity : entities) {
-			BoundingBoxComponent boundingbox = Mappers.boundingBox.get(entity);
-				Rectangle rect = boundingbox.getBoundingRect();											
-				shapeRenderer.rect(rect.x, rect.y, rect.width, rect.height);
-				for (int i = 0; i<4; i++) 
-				{				
-					shapeRenderer.rect(boundingbox.points[i].x-2, boundingbox.points[i].y-2, 4, 4);	
+	void debugRender() {
+			ShapeRenderer shapeRenderer = Commons.getGame().getDebugRenderer();
+			shapeRenderer.setProjectionMatrix( Commons.getGame().getViewport().getCamera().combined);		
+			shapeRenderer.begin(ShapeType.Line);		
+			shapeRenderer.setColor(Color.RED);		
+			
+			@SuppressWarnings("unchecked")
+			Family bounding = Family.all(BoundingBoxComponent.class).get();
+			ImmutableArray<Entity> entities = sl.engine.getEntitiesFor(bounding);						
+			
+			for (Entity entity : entities) {
+				BoundingBoxComponent boundingbox = Mappers.boundingBox.get(entity);
+					Rectangle rect = boundingbox.getBoundingRect();											
+					shapeRenderer.rect(rect.x, rect.y, rect.width, rect.height);
+					for (int i = 0; i<4; i++) 
+					{				
+						shapeRenderer.rect(boundingbox.points[i].x-2, boundingbox.points[i].y-2, 4, 4);	
+					}				
 				}				
-			}				
-		shapeRenderer.setColor(Color.BLUE);
-		OrthographicCamera camera = (OrthographicCamera) Commons.getGame().getViewport().getCamera();
-		shapeRenderer.rect(camera.position.x - ((camera.viewportWidth * camera.zoom ) / 4 ),
-				camera.position.y - ((camera.viewportHeight * camera.zoom ) / 4 ),
-				(camera.viewportWidth * camera.zoom) /2 ,
-				(camera.viewportHeight * camera.zoom) / 2 ) ;
-				
-											
-		shapeRenderer.end();
-		
-		
-	}
+			shapeRenderer.setColor(Color.BLUE);
+			OrthographicCamera camera = (OrthographicCamera) Commons.getGame().getViewport().getCamera();
+			shapeRenderer.rect(camera.position.x - ((camera.viewportWidth * camera.zoom ) / 4 ),
+					camera.position.y - ((camera.viewportHeight * camera.zoom ) / 4 ),
+					(camera.viewportWidth * camera.zoom) /2 ,
+					(camera.viewportHeight * camera.zoom) / 2 ) ;
+					
+												
+			shapeRenderer.end();
+			
+			
+		}
 	
 	
 
